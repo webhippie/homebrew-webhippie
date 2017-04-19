@@ -1,17 +1,25 @@
-require "securerandom"
+require "formula"
+require "language/go"
 
-class SolderApi < Formula
+class Templater < Formula
+  desc "A template processor for environment variables"
   homepage "https://github.com/webhippie/templater"
-  url "http://dl.webhippie.de/templater/latest/templater-latest-darwin-amd64"
-  sha256 `curl -s http://dl.webhippie.de/templater/latest/templater-latest-darwin-amd64.sha256`.split(" ").first
+
+  stable do
+    url "https://dl.webhippie.de/misc/templater/1.0.0/templater-1.0.0-darwin-10.6-amd64"
+    sha256 `curl -Ls https://dl.webhippie.de/misc/templater/1.0.0/templater-1.0.0-darwin-10.6-amd64.sha256`.split(" ").first
+    version "1.0.0"
+  end
+
+  devel do
+    url "https://dl.webhippie.de/misc/templater/master/templater-master-darwin-10.6-amd64"
+    sha256 `curl -Ls https://dl.webhippie.de/misc/templater/master/templater-master-darwin-10.6-amd64.sha256`.split(" ").first
+    version "master"
+  end
 
   head do
     url "https://github.com/webhippie/templater.git", :branch => "master"
-
     depends_on "go" => :build
-    depends_on "mercurial" => :build
-    depends_on "bzr" => :build
-    depends_on "git" => :build
   end
 
   test do
@@ -19,29 +27,31 @@ class SolderApi < Formula
   end
 
   def install
-    if build.head?
-      templater_build_home = "/tmp/#{SecureRandom.hex}"
-      templater_build_path = File.join(templater_build_home, "src", "github.com", "webhippie", "templater")
+    case
+    when build.head?
+      ENV["GOPATH"] = buildpath
+      ENV["GOHOME"] = buildpath
+      ENV["CGO_ENABLED"] = 0
+      ENV["TAGS"] = ""
 
-      ENV["GOPATH"] = templater_build_home
-      ENV["GOHOME"] = templater_build_home
+      ENV.prepend_create_path "PATH", buildpath/"bin"
 
-      mkdir_p templater_build_path
+      currentpath = buildpath/"src/github.com/webhippie/templater"
+      currentpath.install Dir["*"]
+      Language::Go.stage_deps resources, buildpath/"src"
 
-      system("cp -R #{buildpath}/* #{templater_build_path}")
-      ln_s File.join(cached_download, ".git"), File.join(templater_build_path, ".git")
+      cd currentpath do
+        system "make", "test", "build"
 
-      Dir.chdir templater_build_path
-
-      system "make", "deps"
-      system "make", "build"
-
-      bin.install "#{templater_build_path}/bin/templater" => "templater"
-      Dir.chdir buildpath
+        bin.install "templater"
+        # bash_completion.install "contrib/bash-completion/_templater"
+        # zsh_completion.install "contrib/zsh-completion/_templater"
+        prefix.install_metafiles
+      end
+    when build.devel?
+      bin.install "#{buildpath}/templater-master-darwin-10.6-amd64" => "templater"
     else
-      bin.install "#{buildpath}/templater-latest-darwin-amd64" => "templater"
+      bin.install "#{buildpath}/templater-1.0.0-darwin-10.6-amd64" => "templater"
     end
-  ensure
-    rm_rf templater_build_home if build.head?
   end
 end

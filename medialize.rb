@@ -1,17 +1,25 @@
-require "securerandom"
+require "formula"
+require "language/go"
 
 class Medialize < Formula
+  desc "Sort and filter your media files based on meta infos"
   homepage "https://github.com/webhippie/medialize"
-  url "http://dl.webhippie.de/medialize/latest/medialize-latest-darwin-amd64"
-  sha256 `curl -s http://dl.webhippie.de/medialize/latest/medialize-latest-darwin-amd64.sha256`.split(" ").first
+
+  stable do
+    url "https://dl.webhippie.de/misc/medialize/1.0.0/medialize-1.0.0-darwin-10.6-amd64"
+    sha256 `curl -Ls https://dl.webhippie.de/misc/medialize/1.0.0/medialize-1.0.0-darwin-10.6-amd64.sha256`.split(" ").first
+    version "1.0.0"
+  end
+
+  devel do
+    url "https://dl.webhippie.de/misc/medialize/master/medialize-master-darwin-10.6-amd64"
+    sha256 `curl -Ls https://dl.webhippie.de/misc/medialize/master/medialize-master-darwin-10.6-amd64.sha256`.split(" ").first
+    version "master"
+  end
 
   head do
     url "https://github.com/webhippie/medialize.git", :branch => "master"
-
     depends_on "go" => :build
-    depends_on "mercurial" => :build
-    depends_on "bzr" => :build
-    depends_on "git" => :build
   end
 
   test do
@@ -19,29 +27,31 @@ class Medialize < Formula
   end
 
   def install
-    if build.head?
-      medialize_build_home = "/tmp/#{SecureRandom.hex}"
-      medialize_build_path = File.join(medialize_build_home, "src", "github.com", "webhippie", "medialize")
+    case
+    when build.head?
+      ENV["GOPATH"] = buildpath
+      ENV["GOHOME"] = buildpath
+      ENV["CGO_ENABLED"] = 0
+      ENV["TAGS"] = ""
 
-      ENV["GOPATH"] = medialize_build_home
-      ENV["GOHOME"] = medialize_build_home
+      ENV.prepend_create_path "PATH", buildpath/"bin"
 
-      mkdir_p medialize_build_path
+      currentpath = buildpath/"src/github.com/webhippie/medialize"
+      currentpath.install Dir["*"]
+      Language::Go.stage_deps resources, buildpath/"src"
 
-      system("cp -R #{buildpath}/* #{medialize_build_path}")
-      ln_s File.join(cached_download, ".git"), File.join(medialize_build_path, ".git")
+      cd currentpath do
+        system "make", "test", "build"
 
-      Dir.chdir medialize_build_path
-
-      system "make", "deps"
-      system "make", "build"
-
-      bin.install "#{medialize_build_path}/bin/medialize" => "medialize"
-      Dir.chdir buildpath
+        bin.install "medialize"
+        # bash_completion.install "contrib/bash-completion/_medialize"
+        # zsh_completion.install "contrib/zsh-completion/_medialize"
+        prefix.install_metafiles
+      end
+    when build.devel?
+      bin.install "#{buildpath}/medialize-master-darwin-10.6-amd64" => "medialize"
     else
-      bin.install "#{buildpath}/medialize-latest-darwin-amd64" => "medialize"
+      bin.install "#{buildpath}/medialize-1.0.0-darwin-10.6-amd64" => "medialize"
     end
-  ensure
-    rm_rf medialize_build_home if build.head?
   end
 end

@@ -1,4 +1,4 @@
-# homebrew-solder
+# Webhippie: Homebrew
 
 [![Join the chat at https://gitter.im/webhippie/general](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/webhippie/general)
 
@@ -14,6 +14,13 @@ brew tap webhippie/webhippie
 
 ## Install
 
+### medialize
+
+```bash
+brew install medialize
+medialize -h
+```
+
 ### mygithub
 
 ```bash
@@ -21,11 +28,11 @@ brew install mygithub
 mygithub -h
 ```
 
-### medialize
+### redirects
 
 ```bash
-brew install medialize
-medialize -h
+brew install redirects
+redirects -h
 ```
 
 ### templater

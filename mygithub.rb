@@ -1,17 +1,25 @@
-require "securerandom"
+require "formula"
+require "language/go"
 
 class Mygithub < Formula
+  desc "Some tiny GitHub client utilities for daily work"
   homepage "https://github.com/webhippie/mygithub"
-  url "http://dl.webhippie.de/mygithub/latest/mygithub-latest-darwin-amd64"
-  sha256 `curl -s http://dl.webhippie.de/mygithub/latest/mygithub-latest-darwin-amd64.sha256`.split(" ").first
+
+  stable do
+    url "https://dl.webhippie.de/misc/mygithub/1.0.0/mygithub-1.0.0-darwin-10.6-amd64"
+    sha256 `curl -Ls https://dl.webhippie.de/misc/mygithub/1.0.0/mygithub-1.0.0-darwin-10.6-amd64.sha256`.split(" ").first
+    version "1.0.0"
+  end
+
+  devel do
+    url "https://dl.webhippie.de/misc/mygithub/master/mygithub-master-darwin-10.6-amd64"
+    sha256 `curl -Ls https://dl.webhippie.de/misc/mygithub/master/mygithub-master-darwin-10.6-amd64.sha256`.split(" ").first
+    version "master"
+  end
 
   head do
     url "https://github.com/webhippie/mygithub.git", :branch => "master"
-
     depends_on "go" => :build
-    depends_on "mercurial" => :build
-    depends_on "bzr" => :build
-    depends_on "git" => :build
   end
 
   test do
@@ -19,29 +27,31 @@ class Mygithub < Formula
   end
 
   def install
-    if build.head?
-      mygithub_build_home = "/tmp/#{SecureRandom.hex}"
-      mygithub_build_path = File.join(mygithub_build_home, "src", "github.com", "webhippie", "mygithub")
+    case
+    when build.head?
+      ENV["GOPATH"] = buildpath
+      ENV["GOHOME"] = buildpath
+      ENV["CGO_ENABLED"] = 0
+      ENV["TAGS"] = ""
 
-      ENV["GOPATH"] = mygithub_build_home
-      ENV["GOHOME"] = mygithub_build_home
+      ENV.prepend_create_path "PATH", buildpath/"bin"
 
-      mkdir_p mygithub_build_path
+      currentpath = buildpath/"src/github.com/webhippie/mygithub"
+      currentpath.install Dir["*"]
+      Language::Go.stage_deps resources, buildpath/"src"
 
-      system("cp -R #{buildpath}/* #{mygithub_build_path}")
-      ln_s File.join(cached_download, ".git"), File.join(mygithub_build_path, ".git")
+      cd currentpath do
+        system "make", "test", "build"
 
-      Dir.chdir mygithub_build_path
-
-      system "make", "deps"
-      system "make", "build"
-
-      bin.install "#{mygithub_build_path}/bin/mygithub" => "mygithub"
-      Dir.chdir buildpath
+        bin.install "mygithub"
+        # bash_completion.install "contrib/bash-completion/_mygithub"
+        # zsh_completion.install "contrib/zsh-completion/_mygithub"
+        prefix.install_metafiles
+      end
+    when build.devel?
+      bin.install "#{buildpath}/mygithub-master-darwin-10.6-amd64" => "mygithub"
     else
-      bin.install "#{buildpath}/mygithub-latest-darwin-amd64" => "mygithub"
+      bin.install "#{buildpath}/mygithub-1.0.0-darwin-10.6-amd64" => "mygithub"
     end
-  ensure
-    rm_rf mygithub_build_home if build.head?
   end
 end
