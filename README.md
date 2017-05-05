@@ -14,6 +14,13 @@ brew tap webhippie/webhippie
 
 ## Install
 
+### ldap-proxy
+
+```bash
+brew install ldap-proxy
+ldap-proxy -h
+```
+
 ### medialize
 
 ```bash
@@ -26,6 +33,13 @@ medialize -h
 ```bash
 brew install mygithub
 mygithub -h
+```
+
+### oauth2-proxy
+
+```bash
+brew install oauth2-proxy
+oauth2-proxy -h
 ```
 
 ### redirects
