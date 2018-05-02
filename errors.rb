@@ -3,29 +3,29 @@ require "language/go"
 require "fileutils"
 require "open-uri"
 
-class LdapProxy < Formula
-  desc "proxy for authentication via ldap"
-  homepage "https://github.com/webhippie/ldap-proxy"
+class Errors < Formula
+  desc "display proper error documents"
+  homepage "https://github.com/webhippie/errors"
 
   head do
-    url "https://github.com/webhippie/ldap-proxy.git", :branch => "master"
+    url "https://github.com/webhippie/errors.git", :branch => "master"
     depends_on "go" => :build
   end
 
   stable do
-    url "https://dl.webhippie.de/misc/ldap-proxy/0.1.0/ldap-proxy-0.1.0-darwin-10.6-amd64"
-    sha256 open("https://dl.webhippie.de/misc/ldap-proxy/0.1.0/ldap-proxy-0.1.0-darwin-10.6-amd64.sha256").read.split(" ").first
+    url "https://dl.webhippie.de/misc/errors/0.1.0/errors-0.1.0-darwin-10.6-amd64"
+    sha256 open("https://dl.webhippie.de/misc/errors/0.1.0/errors-0.1.0-darwin-10.6-amd64.sha256").read.split(" ").first
     version "0.1.0"
   end
 
   devel do
-    url "https://dl.webhippie.de/misc/ldap-proxy/master/ldap-proxy-master-darwin-10.6-amd64"
-    sha256 open("https://dl.webhippie.de/misc/ldap-proxy/master/ldap-proxy-master-darwin-10.6-amd64.sha256").read.split(" ").first
+    url "https://dl.webhippie.de/misc/errors/master/errors-master-darwin-10.6-amd64"
+    sha256 open("https://dl.webhippie.de/misc/errors/master/errors-master-darwin-10.6-amd64.sha256").read.split(" ").first
     version "master"
   end
 
   test do
-    system "#{bin}/ldap-proxy", "--version"
+    system "#{bin}/errors", "--version"
   end
 
   def install
@@ -38,26 +38,26 @@ class LdapProxy < Formula
 
       ENV.prepend_create_path "PATH", buildpath/"bin"
 
-      currentpath = buildpath/"src/github.com/webhippie/ldap-proxy"
+      currentpath = buildpath/"src/github.com/webhippie/errors"
       currentpath.install Dir["*"]
       Language::Go.stage_deps resources, buildpath/"src"
 
       cd currentpath do
         system "make", "retool", "sync", "generate", "test", "build"
 
-        bin.install "bin/ldap-proxy" => "ldap-proxy"
-        # bash_completion.install "contrib/bash-completion/_ldap-proxy"
-        # zsh_completion.install "contrib/zsh-completion/_ldap-proxy"
+        bin.install "bin/errors" => "errors"
+        # bash_completion.install "contrib/bash-completion/_errors"
+        # zsh_completion.install "contrib/zsh-completion/_errors"
         prefix.install_metafiles
       end
     when build.devel?
-      bin.install "#{buildpath}/ldap-proxy-master-darwin-10.6-amd64" => "ldap-proxy"
+      bin.install "#{buildpath}/errors-master-darwin-10.6-amd64" => "errors"
     else
-      bin.install "#{buildpath}/ldap-proxy-0.1.0-darwin-10.6-amd64" => "ldap-proxy"
+      bin.install "#{buildpath}/errors-0.1.0-darwin-10.6-amd64" => "errors"
     end
 
-    FileUtils.touch("ldap-proxy.conf")
-    etc.install "ldap-proxy.conf" => "ldap-proxy.conf"
+    FileUtils.touch("errors.conf")
+    etc.install "errors.conf" => "errors.conf"
   end
 
   plist_options :startup => true
@@ -72,12 +72,12 @@ class LdapProxy < Formula
           <string>#{plist_name}</string>
           <key>EnvironmentVariables</key>
           <dict>
-            <key>LDAP_PROXY_ENV_FILE</key>
-            <string>#{etc}/ldap-proxy.conf</string>
+            <key>ERRORS_ENV_FILE</key>
+            <string>#{etc}/errors.conf</string>
           </dict>
           <key>ProgramArguments</key>
           <array>
-            <string>#{opt_bin}/ldap-proxy</string>
+            <string>#{opt_bin}/errors</string>
             <string>server</string>
           </array>
           <key>RunAtLoad</key>

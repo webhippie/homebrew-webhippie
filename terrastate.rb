@@ -3,29 +3,29 @@ require "language/go"
 require "fileutils"
 require "open-uri"
 
-class LdapProxy < Formula
-  desc "proxy for authentication via ldap"
-  homepage "https://github.com/webhippie/ldap-proxy"
+class Terrastate < Formula
+  desc "terraform http remote state storage"
+  homepage "https://github.com/webhippie/terrastate"
 
   head do
-    url "https://github.com/webhippie/ldap-proxy.git", :branch => "master"
+    url "https://github.com/webhippie/terrastate.git", :branch => "master"
     depends_on "go" => :build
   end
 
   stable do
-    url "https://dl.webhippie.de/misc/ldap-proxy/0.1.0/ldap-proxy-0.1.0-darwin-10.6-amd64"
-    sha256 open("https://dl.webhippie.de/misc/ldap-proxy/0.1.0/ldap-proxy-0.1.0-darwin-10.6-amd64.sha256").read.split(" ").first
+    url "https://dl.webhippie.de/misc/terrastate/0.1.0/terrastate-0.1.0-darwin-10.6-amd64"
+    sha256 open("https://dl.webhippie.de/misc/terrastate/0.1.0/terrastate-0.1.0-darwin-10.6-amd64.sha256").read.split(" ").first
     version "0.1.0"
   end
 
   devel do
-    url "https://dl.webhippie.de/misc/ldap-proxy/master/ldap-proxy-master-darwin-10.6-amd64"
-    sha256 open("https://dl.webhippie.de/misc/ldap-proxy/master/ldap-proxy-master-darwin-10.6-amd64.sha256").read.split(" ").first
+    url "https://dl.webhippie.de/misc/terrastate/master/terrastate-master-darwin-10.6-amd64"
+    sha256 open("https://dl.webhippie.de/misc/terrastate/master/terrastate-master-darwin-10.6-amd64.sha256").read.split(" ").first
     version "master"
   end
 
   test do
-    system "#{bin}/ldap-proxy", "--version"
+    system "#{bin}/terrastate", "--version"
   end
 
   def install
@@ -38,26 +38,26 @@ class LdapProxy < Formula
 
       ENV.prepend_create_path "PATH", buildpath/"bin"
 
-      currentpath = buildpath/"src/github.com/webhippie/ldap-proxy"
+      currentpath = buildpath/"src/github.com/webhippie/terrastate"
       currentpath.install Dir["*"]
       Language::Go.stage_deps resources, buildpath/"src"
 
       cd currentpath do
         system "make", "retool", "sync", "generate", "test", "build"
 
-        bin.install "bin/ldap-proxy" => "ldap-proxy"
-        # bash_completion.install "contrib/bash-completion/_ldap-proxy"
-        # zsh_completion.install "contrib/zsh-completion/_ldap-proxy"
+        bin.install "bin/terrastate" => "terrastate"
+        # bash_completion.install "contrib/bash-completion/_terrastate"
+        # zsh_completion.install "contrib/zsh-completion/_terrastate"
         prefix.install_metafiles
       end
     when build.devel?
-      bin.install "#{buildpath}/ldap-proxy-master-darwin-10.6-amd64" => "ldap-proxy"
+      bin.install "#{buildpath}/terrastate-master-darwin-10.6-amd64" => "terrastate"
     else
-      bin.install "#{buildpath}/ldap-proxy-0.1.0-darwin-10.6-amd64" => "ldap-proxy"
+      bin.install "#{buildpath}/terrastate-0.1.0-darwin-10.6-amd64" => "terrastate"
     end
 
-    FileUtils.touch("ldap-proxy.conf")
-    etc.install "ldap-proxy.conf" => "ldap-proxy.conf"
+    FileUtils.touch("terrastate.conf")
+    etc.install "terrastate.conf" => "terrastate.conf"
   end
 
   plist_options :startup => true
@@ -72,12 +72,12 @@ class LdapProxy < Formula
           <string>#{plist_name}</string>
           <key>EnvironmentVariables</key>
           <dict>
-            <key>LDAP_PROXY_ENV_FILE</key>
-            <string>#{etc}/ldap-proxy.conf</string>
+            <key>TERRASTATE_ENV_FILE</key>
+            <string>#{etc}/terrastate.conf</string>
           </dict>
           <key>ProgramArguments</key>
           <array>
-            <string>#{opt_bin}/ldap-proxy</string>
+            <string>#{opt_bin}/terrastate</string>
             <string>server</string>
           </array>
           <key>RunAtLoad</key>
