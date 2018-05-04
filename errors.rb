@@ -12,11 +12,11 @@ class Errors < Formula
     depends_on "go" => :build
   end
 
-  stable do
-    url "https://dl.webhippie.de/misc/errors/0.1.0/errors-0.1.0-darwin-10.6-amd64"
-    sha256 open("https://dl.webhippie.de/misc/errors/0.1.0/errors-0.1.0-darwin-10.6-amd64.sha256").read.split(" ").first
-    version "0.1.0"
-  end
+  # stable do
+  #   url "https://dl.webhippie.de/misc/errors/0.1.0/errors-0.1.0-darwin-10.6-amd64"
+  #   sha256 open("https://dl.webhippie.de/misc/errors/0.1.0/errors-0.1.0-darwin-10.6-amd64.sha256").read.split(" ").first
+  #   version "0.1.0"
+  # end
 
   devel do
     url "https://dl.webhippie.de/misc/errors/master/errors-master-darwin-10.6-amd64"
