@@ -8,7 +8,7 @@ Homebrew repository to install tools maintained by us.
 
 ## Prepare
 
-```bash
+```console
 brew tap webhippie/webhippie
 ```
 
@@ -16,63 +16,63 @@ brew tap webhippie/webhippie
 
 ### [errors](https://github.com/webhippie/errors)
 
-```bash
+```console
 brew install errors
 errors -h
 ```
 
 ### [ldap-proxy](https://github.com/webhippie/ldap-proxy)
 
-```bash
+```console
 brew install ldap-proxy
 ldap-proxy -h
 ```
 
 ### [medialize](https://github.com/webhippie/medialize)
 
-```bash
+```console
 brew install medialize
 medialize -h
 ```
 
 ### [mygithub](https://github.com/webhippie/mygithub)
 
-```bash
+```console
 brew install mygithub
 mygithub -h
 ```
 
 ### [oauth2-proxy](https://github.com/webhippie/oauth2-proxy)
 
-```bash
+```console
 brew install oauth2-proxy
 oauth2-proxy -h
 ```
 
 ### [redirects](https://github.com/webhippie/redirects)
 
-```bash
+```console
 brew install redirects
 redirects -h
 ```
 
 ### [templater](https://github.com/webhippie/templater)
 
-```bash
+```console
 brew install templater
 templater -h
 ```
 
 ### [terrastate](https://github.com/webhippie/terrastate)
 
-```bash
+```console
 brew install terrastate
 terrastate -h
 ```
 
 ## Development
 
-```bash
+```console
 rake test
 ```
 
@@ -86,7 +86,7 @@ Fork -> Patch -> Push -> Pull Request
 
 ## Authors
 
-* [Thomas Boerger](https://github.com/tboerger)
+*  [Thomas Boerger](https://github.com/tboerger)
 
 ## License
 
@@ -94,6 +94,6 @@ Apache-2.0
 
 ## Copyright
 
-```
+```console
 Copyright (c) 2018 Thomas Boerger <thomas@webhippie.de>
 ```

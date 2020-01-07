@@ -38,7 +38,7 @@ We keep a changelog in the `CHANGELOG.md` file. This is useful to understand wha
 
 The sign-off is a simple line at the end of the explanation for the patch. Your signature certifies that you wrote the patch or otherwise have the right to pass it on as an open-source patch. The rules are pretty simple: If you can certify [DCO](DCO), then you just add a line to every git commit message:
 
-```
+```console
 Signed-off-by: Joe Smith <joe.smith@example.com>
 ```
 
