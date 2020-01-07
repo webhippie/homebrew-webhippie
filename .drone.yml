@@ -1,22 +1,41 @@
-workspace:
-  base: /srv/app
-  path: src/github.com/webhippie/homebrew-webhippie
+---
+kind: pipeline
+type: docker
+name: default
 
-branches:
-  - master
+platform:
+  os: linux
+  arch: amd64
 
-pipeline:
-  test-formula:
-    image: webhippie/ruby:latest
-    pull: true
-    commands:
-      - rake test
+steps:
+- name: test
+  image: webhippie/ruby:latest
+  pull: always
+  commands:
+  - rake test
 
-  notify-matrix:
-    image: plugins/matrix:1
-    pull: true
-    secrets: [ matrix_roomid, matrix_username, matrix_password ]
-    when:
-      local: false
-      events: [ push, tag ]
-      status: [ changed, failure ]
+- name: notify
+  image: plugins/matrix:latest
+  pull: always
+  settings:
+    homeserver: https://matrix.org
+    username:
+      from_secret: matrix_username
+    password:
+      from_secret: matrix_password
+    roomid:
+      from_secret: matrix_roomid
+  when:
+    ref:
+    - refs/heads/master
+    - refs/tags/**
+    status:
+    - failure
+
+trigger:
+  ref:
+  - refs/heads/master
+  - refs/tags/**
+  - refs/pull/**
+
+...
