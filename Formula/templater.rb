@@ -3,7 +3,7 @@ require "language/go"
 require "fileutils"
 require "open-uri"
 
-class Medialize < Formula
+class Templater < Formula
   desc "a template processor for environment variables"
   homepage "https://github.com/webhippie/templater"
 
