@@ -19,8 +19,8 @@ class Oauth2Proxy < Formula
   # end
 
   devel do
-    url "https://dl.webhippie.de/oauth2-proxy/master/oauth2-proxy-0.0.0-darwin-10.6-amd64"
-    sha256 open("https://dl.webhippie.de/oauth2-proxy/master/oauth2-proxy-0.0.0-darwin-10.6-amd64.sha256").read.split(" ").first
+    url "https://dl.webhippie.de/oauth2-proxy/master/oauth2-proxy-0.0.0-master-darwin-10.6-amd64"
+    sha256 open("https://dl.webhippie.de/oauth2-proxy/master/oauth2-proxy-0.0.0-master-darwin-10.6-amd64.sha256").read.split(" ").first
     version "master"
   end
 

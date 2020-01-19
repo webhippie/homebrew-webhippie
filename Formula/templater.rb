@@ -19,8 +19,8 @@ class Medialize < Formula
   # end
 
   devel do
-    url "https://dl.webhippie.de/templater/master/templater-0.0.0-darwin-10.6-amd64"
-    sha256 open("https://dl.webhippie.de/templater/master/templater-0.0.0-darwin-10.6-amd64.sha256").read.split(" ").first
+    url "https://dl.webhippie.de/templater/master/templater-0.0.0-master-darwin-10.6-amd64"
+    sha256 open("https://dl.webhippie.de/templater/master/templater-0.0.0-master-darwin-10.6-amd64.sha256").read.split(" ").first
     version "master"
   end
 
