@@ -1,8 +1,3 @@
-require "formula"
-require "language/go"
-require "fileutils"
-require "open-uri"
-
 class Mcrcon < Formula
   desc "Rcon client for Minecraft"
   homepage "https://github.com/Tiiffi/mcrcon"
