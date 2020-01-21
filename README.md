@@ -14,6 +14,13 @@ brew tap webhippie/webhippie
 
 ## Install
 
+### [boilr](https://github.com/tmrts/boilr)
+
+```console
+brew install boilr
+boilr -h
+```
+
 ### [errors](https://github.com/webhippie/errors)
 
 ```console
@@ -26,6 +33,13 @@ errors -h
 ```console
 brew install ldap-proxy
 ldap-proxy -h
+```
+
+### [mcrcon](https://github.com/Tiiffi/mcrcon)
+
+```console
+brew install mcrcon
+mcrcon -h
 ```
 
 ### [medialize](https://github.com/webhippie/medialize)
