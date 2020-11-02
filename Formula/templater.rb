@@ -18,12 +18,6 @@ class Templater < Formula
   #   version "1.0.0"
   # end
 
-  devel do
-    url "https://dl.webhippie.de/templater/master/templater-0.0.0-master-darwin-10.6-amd64"
-    sha256 open("https://dl.webhippie.de/templater/master/templater-0.0.0-master-darwin-10.6-amd64.sha256").read.split(" ").first
-    version "master"
-  end
-
   test do
     system "#{bin}/templater", "--version"
   end

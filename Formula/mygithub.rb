@@ -18,12 +18,6 @@ class Mygithub < Formula
   #   version "1.0.0"
   # end
 
-  devel do
-    url "https://dl.webhippie.de/mygithub/master/mygithub-0.0.0-master-darwin-10.6-amd64"
-    sha256 open("https://dl.webhippie.de/mygithub/master/mygithub-0.0.0-master-darwin-10.6-amd64.sha256").read.split(" ").first
-    version "master"
-  end
-
   test do
     system "#{bin}/mygithub", "--version"
   end
