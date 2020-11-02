@@ -18,12 +18,6 @@ end
 #   version "0.1.0"
 # end
 
-devel do
-  url "https://dl.webhippie.de/errors/master/errors-0.0.0-darwin-10.6-amd64"
-  sha256 open("https://dl.webhippie.de/errors/master/errors-0.0.0-darwin-10.6-amd64.sha256").read.split(" ").first
-  version "master"
-end
-
 test do
   system "#{bin}/errors", "--version"
 end

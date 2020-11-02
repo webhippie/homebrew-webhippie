@@ -18,12 +18,6 @@ class Oauth2Proxy < Formula
   #   version "0.1.0"
   # end
 
-  devel do
-    url "https://dl.webhippie.de/oauth2-proxy/master/oauth2-proxy-0.0.0-master-darwin-10.6-amd64"
-    sha256 open("https://dl.webhippie.de/oauth2-proxy/master/oauth2-proxy-0.0.0-master-darwin-10.6-amd64.sha256").read.split(" ").first
-    version "master"
-  end
-
   test do
     system "#{bin}/oauth2-proxy", "--version"
   end
