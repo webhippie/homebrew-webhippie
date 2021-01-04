@@ -1,10 +1,10 @@
 class Boilr < Formula
   desc "Boilerplate template manager that generates files from template repo"
-  homepage "https://github.com/tmrts/boilr"
+  homepage "https://github.com/Ilyes512/boilr"
 
-  url "https://github.com/tmrts/boilr/releases/download/0.3.0/boilr-0.3.0-darwin_amd64.tgz"
-  version "0.3.0"
-  sha256 "81c135073310adbfbfa1b46fabb8467c26e08053340491d604ee9bec886c18d8"
+  url "https://github.com/Ilyes512/boilr/releases/download/0.4.5/boilr_0.4.5_macOS_64-bit.tar.gz"
+  version "0.4.5"
+  sha256 "25c4e890e227602ba17abdd22cffdf18808c3bb5b81a3858d23eb1084103b495"
 
   test do
     system bin/"boilr", "--help"
