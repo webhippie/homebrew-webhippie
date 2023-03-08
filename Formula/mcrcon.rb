@@ -4,8 +4,8 @@ class Mcrcon < Formula
   desc 'Rcon client for Minecraft'
   homepage 'https://github.com/Tiiffi/mcrcon'
 
-  url 'https://github.com/Tiiffi/mcrcon/archive/v0.7.1.tar.gz'
-  sha256 '69597079fa35bb246087671a77c825e015d51d16f7b8d0064915b84d78dd3c8f'
+  url 'https://github.com/Tiiffi/mcrcon/archive/v0.7.2.tar.gz'
+  sha256 '1743b25a2d031b774e805f4011cb7d92010cb866e3b892f5dfc5b42080973270'
   head 'https://github.com/Tiiffi/mcrcon.git', shallow: false
 
   test do
