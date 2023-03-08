@@ -1,0 +1,35 @@
+---
+name: general
+
+"on":
+  push:
+    branches:
+      - master
+  pull_request:
+    branches:
+      - master
+
+jobs:
+  testing:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout source
+        id: source
+        uses: actions/checkout@v3
+
+      - name: Setup ruby
+        id: ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          bundler-cache: true
+
+      - name: Run lint
+        id: lint
+        run: bundle exec rake rubocop
+
+      - name: Run test
+        id: test
+        run: bundle exec rake test
+
+...

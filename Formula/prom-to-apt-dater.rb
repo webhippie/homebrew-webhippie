@@ -5,23 +5,23 @@ require 'language/go'
 require 'fileutils'
 require 'open-uri'
 
-class Redirects < Formula
-  desc 'simple pattern-based redirect server'
-  homepage 'https://github.com/webhippie/redirects'
+class PromToAptDater < Formula
+  desc ''
+  homepage 'https://github.com/webhippie/prom-to-apt-dater'
 
   head do
-    url 'https://github.com/webhippie/redirects.git', branch: 'master'
+    url 'https://github.com/webhippie/prom-to-apt-dater.git', branch: 'master'
     depends_on 'go' => :build
   end
 
   # stable do
-  #   url "https://dl.webhippie.de/redirects/0.1.0/redirects-0.1.0-darwin-10.6-amd64"
-  #   sha256 open("https://dl.webhippie.de/redirects/0.1.0/redirects-0.1.0-darwin-10.6-amd64.sha256").read.split(" ").first
+  #   url "https://dl.webhippie.de/prom-to-apt-dater/0.1.0/prom-to-apt-dater-0.1.0-darwin-10.6-amd64"
+  #   sha256 open("https://dl.webhippie.de/prom-to-apt-dater/0.1.0/prom-to-apt-dater-0.1.0-darwin-10.6-amd64.sha256").read.split(" ").first
   #   version "0.1.0"
   # end
 
   test do
-    system "#{bin}/redirects", '--version'
+    system "#{bin}/prom-to-apt-dater", '--version'
   end
 
   def install
@@ -33,26 +33,26 @@ class Redirects < Formula
 
       ENV.prepend_create_path 'PATH', buildpath / 'bin'
 
-      currentpath = buildpath / 'src/github.com/webhippie/redirects'
+      currentpath = buildpath / 'src/github.com/webhippie/prom-to-apt-dater'
       currentpath.install Dir['*']
       Language::Go.stage_deps resources, buildpath / 'src'
 
       cd currentpath do
         system 'make', 'retool', 'sync', 'generate', 'test', 'build'
 
-        bin.install 'bin/redirects' => 'redirects'
-        # bash_completion.install "contrib/bash-completion/_redirects"
-        # zsh_completion.install "contrib/zsh-completion/_redirects"
+        bin.install 'bin/prom-to-apt-dater' => 'prom-to-apt-dater'
+        # bash_completion.install "contrib/bash-completion/_prom-to-apt-dater"
+        # zsh_completion.install "contrib/zsh-completion/_prom-to-apt-dater"
         prefix.install_metafiles
       end
     elsif build.devel?
-      bin.install "#{buildpath}/redirects-master-darwin-10.6-amd64" => 'redirects'
+      bin.install "#{buildpath}/prom-to-apt-dater-master-darwin-10.6-amd64" => 'prom-to-apt-dater'
     else
-      bin.install "#{buildpath}/redirects-0.1.0-darwin-10.6-amd64" => 'redirects'
+      bin.install "#{buildpath}/prom-to-apt-dater-0.1.0-darwin-10.6-amd64" => 'prom-to-apt-dater'
     end
 
-    FileUtils.touch('redirects.conf')
-    etc.install 'redirects.conf' => 'redirects.conf'
+    FileUtils.touch('prom-to-apt-dater.conf')
+    etc.install 'prom-to-apt-dater.conf' => 'prom-to-apt-dater.conf'
   end
 
   plist_options startup: true
@@ -68,11 +68,11 @@ class Redirects < Formula
           <key>EnvironmentVariables</key>
           <dict>
             <key>REDIRECTS_ENV_FILE</key>
-            <string>#{etc}/redirects.conf</string>
+            <string>#{etc}/prom-to-apt-dater.conf</string>
           </dict>
           <key>ProgramArguments</key>
           <array>
-            <string>#{opt_bin}/redirects</string>
+            <string>#{opt_bin}/prom-to-apt-dater</string>
             <string>server</string>
           </array>
           <key>RunAtLoad</key>

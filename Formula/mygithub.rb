@@ -1,15 +1,17 @@
-require "formula"
-require "language/go"
-require "fileutils"
-require "open-uri"
+# frozen_string_literal: true
+
+require 'formula'
+require 'language/go'
+require 'fileutils'
+require 'open-uri'
 
 class Mygithub < Formula
-  desc "some tiny github client utilities for daily work"
-  homepage "https://github.com/webhippie/mygithub"
+  desc 'some tiny github client utilities for daily work'
+  homepage 'https://github.com/webhippie/mygithub'
 
   head do
-    url "https://github.com/webhippie/mygithub.git", :branch => "master"
-    depends_on "go" => :build
+    url 'https://github.com/webhippie/mygithub.git', branch: 'master'
+    depends_on 'go' => :build
   end
 
   # stable do
@@ -19,35 +21,34 @@ class Mygithub < Formula
   # end
 
   test do
-    system "#{bin}/mygithub", "--version"
+    system "#{bin}/mygithub", '--version'
   end
 
   def install
-    case
-    when build.head?
-      ENV["GOPATH"] = buildpath
-      ENV["GOHOME"] = buildpath
-      ENV["CGO_ENABLED"] = 1
-      ENV["TAGS"] = ""
+    if build.head?
+      ENV['GOPATH'] = buildpath
+      ENV['GOHOME'] = buildpath
+      ENV['CGO_ENABLED'] = 1
+      ENV['TAGS'] = ''
 
-      ENV.prepend_create_path "PATH", buildpath/"bin"
+      ENV.prepend_create_path 'PATH', buildpath / 'bin'
 
-      currentpath = buildpath/"src/github.com/webhippie/mygithub"
-      currentpath.install Dir["*"]
-      Language::Go.stage_deps resources, buildpath/"src"
+      currentpath = buildpath / 'src/github.com/webhippie/mygithub'
+      currentpath.install Dir['*']
+      Language::Go.stage_deps resources, buildpath / 'src'
 
       cd currentpath do
-        system "make", "retool", "sync", "generate", "test", "build"
+        system 'make', 'retool', 'sync', 'generate', 'test', 'build'
 
-        bin.install "bin/mygithub" => "mygithub"
+        bin.install 'bin/mygithub' => 'mygithub'
         # bash_completion.install "contrib/bash-completion/_mygithub"
         # zsh_completion.install "contrib/zsh-completion/_mygithub"
         prefix.install_metafiles
       end
-    when build.devel?
-      bin.install "#{buildpath}/mygithub-master-darwin-10.6-amd64" => "mygithub"
+    elsif build.devel?
+      bin.install "#{buildpath}/mygithub-master-darwin-10.6-amd64" => 'mygithub'
     else
-      bin.install "#{buildpath}/mygithub-1.0.0-darwin-10.6-amd64" => "mygithub"
+      bin.install "#{buildpath}/mygithub-1.0.0-darwin-10.6-amd64" => 'mygithub'
     end
   end
 end

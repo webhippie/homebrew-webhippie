@@ -1,15 +1,17 @@
-require "formula"
-require "language/go"
-require "fileutils"
-require "open-uri"
+# frozen_string_literal: true
+
+require 'formula'
+require 'language/go'
+require 'fileutils'
+require 'open-uri'
 
 class Terrastate < Formula
-  desc "terraform http remote state storage"
-  homepage "https://github.com/webhippie/terrastate"
+  desc 'terraform http remote state storage'
+  homepage 'https://github.com/webhippie/terrastate'
 
   head do
-    url "https://github.com/webhippie/terrastate.git", :branch => "master"
-    depends_on "go" => :build
+    url 'https://github.com/webhippie/terrastate.git', branch: 'master'
+    depends_on 'go' => :build
   end
 
   # stable do
@@ -19,42 +21,41 @@ class Terrastate < Formula
   # end
 
   test do
-    system "#{bin}/terrastate", "--version"
+    system "#{bin}/terrastate", '--version'
   end
 
   def install
-    case
-    when build.head?
-      ENV["GOPATH"] = buildpath
-      ENV["GOHOME"] = buildpath
-      ENV["CGO_ENABLED"] = 1
-      ENV["TAGS"] = ""
+    if build.head?
+      ENV['GOPATH'] = buildpath
+      ENV['GOHOME'] = buildpath
+      ENV['CGO_ENABLED'] = 1
+      ENV['TAGS'] = ''
 
-      ENV.prepend_create_path "PATH", buildpath/"bin"
+      ENV.prepend_create_path 'PATH', buildpath / 'bin'
 
-      currentpath = buildpath/"src/github.com/webhippie/terrastate"
-      currentpath.install Dir["*"]
-      Language::Go.stage_deps resources, buildpath/"src"
+      currentpath = buildpath / 'src/github.com/webhippie/terrastate'
+      currentpath.install Dir['*']
+      Language::Go.stage_deps resources, buildpath / 'src'
 
       cd currentpath do
-        system "make", "retool", "sync", "generate", "test", "build"
+        system 'make', 'retool', 'sync', 'generate', 'test', 'build'
 
-        bin.install "bin/terrastate" => "terrastate"
+        bin.install 'bin/terrastate' => 'terrastate'
         # bash_completion.install "contrib/bash-completion/_terrastate"
         # zsh_completion.install "contrib/zsh-completion/_terrastate"
         prefix.install_metafiles
       end
-    when build.devel?
-      bin.install "#{buildpath}/terrastate-master-darwin-10.6-amd64" => "terrastate"
+    elsif build.devel?
+      bin.install "#{buildpath}/terrastate-master-darwin-10.6-amd64" => 'terrastate'
     else
-      bin.install "#{buildpath}/terrastate-0.1.0-darwin-10.6-amd64" => "terrastate"
+      bin.install "#{buildpath}/terrastate-0.1.0-darwin-10.6-amd64" => 'terrastate'
     end
 
-    FileUtils.touch("terrastate.conf")
-    etc.install "terrastate.conf" => "terrastate.conf"
+    FileUtils.touch('terrastate.conf')
+    etc.install 'terrastate.conf' => 'terrastate.conf'
   end
 
-  plist_options :startup => true
+  plist_options startup: true
 
   def plist
     <<~EOS

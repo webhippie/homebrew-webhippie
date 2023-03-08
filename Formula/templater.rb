@@ -1,15 +1,17 @@
-require "formula"
-require "language/go"
-require "fileutils"
-require "open-uri"
+# frozen_string_literal: true
+
+require 'formula'
+require 'language/go'
+require 'fileutils'
+require 'open-uri'
 
 class Templater < Formula
-  desc "a template processor for environment variables"
-  homepage "https://github.com/webhippie/templater"
+  desc 'a template processor for environment variables'
+  homepage 'https://github.com/webhippie/templater'
 
   head do
-    url "https://github.com/webhippie/templater.git", :branch => "master"
-    depends_on "go" => :build
+    url 'https://github.com/webhippie/templater.git', branch: 'master'
+    depends_on 'go' => :build
   end
 
   # stable do
@@ -19,35 +21,34 @@ class Templater < Formula
   # end
 
   test do
-    system "#{bin}/templater", "--version"
+    system "#{bin}/templater", '--version'
   end
 
   def install
-    case
-    when build.head?
-      ENV["GOPATH"] = buildpath
-      ENV["GOHOME"] = buildpath
-      ENV["CGO_ENABLED"] = 1
-      ENV["TAGS"] = ""
+    if build.head?
+      ENV['GOPATH'] = buildpath
+      ENV['GOHOME'] = buildpath
+      ENV['CGO_ENABLED'] = 1
+      ENV['TAGS'] = ''
 
-      ENV.prepend_create_path "PATH", buildpath/"bin"
+      ENV.prepend_create_path 'PATH', buildpath / 'bin'
 
-      currentpath = buildpath/"src/github.com/webhippie/templater"
-      currentpath.install Dir["*"]
-      Language::Go.stage_deps resources, buildpath/"src"
+      currentpath = buildpath / 'src/github.com/webhippie/templater'
+      currentpath.install Dir['*']
+      Language::Go.stage_deps resources, buildpath / 'src'
 
       cd currentpath do
-        system "make", "retool", "sync", "generate", "test", "build"
+        system 'make', 'retool', 'sync', 'generate', 'test', 'build'
 
-        bin.install "bin/templater" => "templater"
+        bin.install 'bin/templater' => 'templater'
         # bash_completion.install "contrib/bash-completion/_templater"
         # zsh_completion.install "contrib/zsh-completion/_templater"
         prefix.install_metafiles
       end
-    when build.devel?
-      bin.install "#{buildpath}/templater-master-darwin-10.6-amd64" => "templater"
+    elsif build.devel?
+      bin.install "#{buildpath}/templater-master-darwin-10.6-amd64" => 'templater'
     else
-      bin.install "#{buildpath}/templater-1.0.0-darwin-10.6-amd64" => "templater"
+      bin.install "#{buildpath}/templater-1.0.0-darwin-10.6-amd64" => 'templater'
     end
   end
 end

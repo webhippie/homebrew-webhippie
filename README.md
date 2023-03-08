@@ -1,8 +1,6 @@
 # Homebrew: Webhippie
 
-[![Build Status](http://cloud.drone.io/api/badges/webhippie/homebrew-webhippie/status.svg)](http://cloud.drone.io/webhippie/homebrew-webhippie)
-[![Join the Matrix chat at https://matrix.to/#/#webhippie:matrix.org](https://img.shields.io/badge/matrix-%23webhippie%3Amatrix.org-7bc9a4.svg)](https://matrix.to/#/#webhippie:matrix.org)
-[![Codacy Badge](https://api.codacy.com/project/badge/Grade/80082dcc967e4ec2be2792585a032e90)](https://www.codacy.com/gh/webhippie/homebrew-webhippie?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=webhippie/homebrew-webhippie&amp;utm_campaign=Badge_Grade)
+[![Build Status](https://github.com/webhippie/homebrew-webhippie/actions/workflows/general.yml/badge.svg)](https://github.com/webhippie/homebrew-webhippie/actions/workflows/general.yml) [![Join the Matrix chat at https://matrix.to/#/#webhippie:matrix.org](https://img.shields.io/badge/matrix-%23webhippie-7bc9a4.svg)](https://matrix.to/#/#webhippie:matrix.org) [![Codacy Badge](https://app.codacy.com/project/badge/Grade/9f7da33f3e764e6f96d7fa23771d03a1)](https://www.codacy.com/gh/webhippie/homebrew-webhippie/dashboard?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=webhippie/homebrew-webhippie&amp;utm_campaign=Badge_Grade)
 
 Homebrew repository to install tools maintained by us.
 
@@ -21,18 +19,18 @@ brew install boilr
 boilr -h
 ```
 
+### [cursecli](https://github.com/webhippie/cursecli)
+
+```console
+brew install cursecli
+cursecli -h
+```
+
 ### [errors](https://github.com/webhippie/errors)
 
 ```console
 brew install errors
 errors -h
-```
-
-### [ldap-proxy](https://github.com/webhippie/ldap-proxy)
-
-```console
-brew install ldap-proxy
-ldap-proxy -h
 ```
 
 ### [mcrcon](https://github.com/Tiiffi/mcrcon)
@@ -56,11 +54,11 @@ brew install mygithub
 mygithub -h
 ```
 
-### [oauth2-proxy](https://github.com/webhippie/oauth2-proxy)
+### [prom-to-apt-dater](https://github.com/webhippie/prom-to-apt-dater)
 
 ```console
-brew install oauth2-proxy
-oauth2-proxy -h
+brew install prom-to-apt-dater
+prom-to-apt-dater -h
 ```
 
 ### [redirects](https://github.com/webhippie/redirects)
@@ -92,7 +90,8 @@ rake test
 
 ## Security
 
-If you find a security issue please contact thomas@webhippie.de first.
+If you find a security issue please contact
+[thomas@webhippie.de](mailto:thomas@webhippie.de) first.
 
 ## Contributing
 
@@ -100,7 +99,7 @@ Fork -> Patch -> Push -> Pull Request
 
 ## Authors
 
-*  [Thomas Boerger](https://github.com/tboerger)
+-   [Thomas Boerger](https://github.com/tboerger)
 
 ## License
 
