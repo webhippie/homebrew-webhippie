@@ -4,9 +4,9 @@ class Boilr < Formula
   desc 'Boilerplate template manager that generates files from template repo'
   homepage 'https://github.com/Ilyes512/boilr'
 
-  url 'https://github.com/Ilyes512/boilr/releases/download/0.4.5/boilr_0.4.5_macOS_64-bit.tar.gz'
+  url 'https://github.com/Ilyes512/boilr/archive/0.4.6.tar.gz'
   version '0.4.5'
-  sha256 '25c4e890e227602ba17abdd22cffdf18808c3bb5b81a3858d23eb1084103b495'
+  sha256 '362e7af96528cc6c01ab1caf3f4e8433baf2aabd8878fc953b3be7ff14ab420d'
 
   test do
     system bin / 'boilr', '--help'
