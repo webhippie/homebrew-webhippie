@@ -1,86 +1,44 @@
 # frozen_string_literal: true
 
-require 'formula'
-require 'language/go'
-require 'fileutils'
-require 'open-uri'
-
+# Definition of the redirects formula
 class Redirects < Formula
-  desc 'simple pattern-based redirect server'
-  homepage 'https://github.com/webhippie/redirects'
+  desc "Simple pattern-based redirect server"
+  homepage "https://webhippie.github.io/redirects"
+  license "Apache-2.0"
 
-  head do
-    url 'https://github.com/webhippie/redirects.git', branch: 'master'
-    depends_on 'go' => :build
-  end
+  version "1.0.1"
+  url "https://github.com/webhippie/redirects.git",
+      tag: "v1.0.1",
+      revision: "1bfdff811a2eac2f5e4e306f380e1e83fefea1ec"
 
-  # stable do
-  #   url "https://dl.webhippie.de/redirects/0.1.0/redirects-0.1.0-darwin-10.6-amd64"
-  #   sha256 open("https://dl.webhippie.de/redirects/0.1.0/redirects-0.1.0-darwin-10.6-amd64.sha256").read.split(" ").first
-  #   version "0.1.0"
-  # end
+  head "https://github.com/webhippie/redirects.git", branch: "master"
 
   test do
-    system "#{bin}/redirects", '--version'
+    system bin / "redirects", "--version"
   end
+
+  depends_on "go" => :build
 
   def install
-    if build.head?
-      ENV['GOPATH'] = buildpath
-      ENV['GOHOME'] = buildpath
-      ENV['CGO_ENABLED'] = 1
-      ENV['TAGS'] = ''
+    ENV["CGO_ENABLED"] = 0
+    ENV["TAGS"] = ""
 
-      ENV.prepend_create_path 'PATH', buildpath / 'bin'
+    system "make", "generate", "build"
+    bin.install "bin/redirects"
 
-      currentpath = buildpath / 'src/github.com/webhippie/redirects'
-      currentpath.install Dir['*']
-      Language::Go.stage_deps resources, buildpath / 'src'
-
-      cd currentpath do
-        system 'make', 'retool', 'sync', 'generate', 'test', 'build'
-
-        bin.install 'bin/redirects' => 'redirects'
-        # bash_completion.install "contrib/bash-completion/_redirects"
-        # zsh_completion.install "contrib/zsh-completion/_redirects"
-        prefix.install_metafiles
-      end
-    elsif build.devel?
-      bin.install "#{buildpath}/redirects-master-darwin-10.6-amd64" => 'redirects'
-    else
-      bin.install "#{buildpath}/redirects-0.1.0-darwin-10.6-amd64" => 'redirects'
-    end
-
-    FileUtils.touch('redirects.conf')
-    etc.install 'redirects.conf' => 'redirects.conf'
+    FileUtils.touch("redirects.conf")
+    etc.install "redirects.conf"
   end
 
-  plist_options startup: true
+  def post_install
+    (var / "redirects").mkpath
+  end
 
-  def plist
-    <<~EOS
-      <?xml version="1.0" encoding="UTF-8"?>
-      <!DOCTYPE plist PUBLIC "-//Apple Computer//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
-      <plist version="1.0">
-        <dict>
-          <key>Label</key>
-          <string>#{plist_name}</string>
-          <key>EnvironmentVariables</key>
-          <dict>
-            <key>REDIRECTS_ENV_FILE</key>
-            <string>#{etc}/redirects.conf</string>
-          </dict>
-          <key>ProgramArguments</key>
-          <array>
-            <string>#{opt_bin}/redirects</string>
-            <string>server</string>
-          </array>
-          <key>RunAtLoad</key>
-          <true/>
-          <key>KeepAlive</key>
-          <true/>
-        </dict>
-      </plist>
-    EOS
+  service do
+    run [opt_bin / "redirects", "server"]
+    environment_variables REDIRECTS_ENV_FILE: etc / "redirects.conf"
+    keep_alive true
+    log_path var / "log/redirects.log"
+    error_log_path var / "log/redirects.log"
   end
 end

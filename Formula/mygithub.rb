@@ -1,54 +1,29 @@
 # frozen_string_literal: true
 
-require 'formula'
-require 'language/go'
-require 'fileutils'
-require 'open-uri'
-
+# Definition of the mygithub formula
 class Mygithub < Formula
-  desc 'some tiny github client utilities for daily work'
-  homepage 'https://github.com/webhippie/mygithub'
+  desc "Some tiny GitHub client utilities for daily work"
+  homepage "https://webhippie.github.io/mygithub"
+  license "Apache-2.0"
 
-  head do
-    url 'https://github.com/webhippie/mygithub.git', branch: 'master'
-    depends_on 'go' => :build
-  end
+  version "1.0.0"
+  url "https://github.com/webhippie/mygithub.git",
+      tag: "v1.0.0",
+      revision: "2af2923799b6af0bb871440b39594f3aaf32cbb4"
 
-  # stable do
-  #   url "https://dl.webhippie.de/mygithub/1.0.0/mygithub-1.0.0-darwin-10.6-amd64"
-  #   sha256 open("https://dl.webhippie.de/mygithub/1.0.0/mygithub-1.0.0-darwin-10.6-amd64.sha256").read.split(" ").first
-  #   version "1.0.0"
-  # end
+  head "https://github.com/webhippie/mygithub.git", branch: "master"
 
   test do
-    system "#{bin}/mygithub", '--version'
+    system bin / "mygithub", "--version"
   end
 
+  depends_on "go" => :build
+
   def install
-    if build.head?
-      ENV['GOPATH'] = buildpath
-      ENV['GOHOME'] = buildpath
-      ENV['CGO_ENABLED'] = 1
-      ENV['TAGS'] = ''
+    ENV["CGO_ENABLED"] = 0
+    ENV["TAGS"] = ""
 
-      ENV.prepend_create_path 'PATH', buildpath / 'bin'
-
-      currentpath = buildpath / 'src/github.com/webhippie/mygithub'
-      currentpath.install Dir['*']
-      Language::Go.stage_deps resources, buildpath / 'src'
-
-      cd currentpath do
-        system 'make', 'retool', 'sync', 'generate', 'test', 'build'
-
-        bin.install 'bin/mygithub' => 'mygithub'
-        # bash_completion.install "contrib/bash-completion/_mygithub"
-        # zsh_completion.install "contrib/zsh-completion/_mygithub"
-        prefix.install_metafiles
-      end
-    elsif build.devel?
-      bin.install "#{buildpath}/mygithub-master-darwin-10.6-amd64" => 'mygithub'
-    else
-      bin.install "#{buildpath}/mygithub-1.0.0-darwin-10.6-amd64" => 'mygithub'
-    end
+    system "make", "generate", "build"
+    bin.install "bin/mygithub"
   end
 end

@@ -1,54 +1,29 @@
 # frozen_string_literal: true
 
-require 'formula'
-require 'language/go'
-require 'fileutils'
-require 'open-uri'
-
+# Definition of the cursecli formula
 class Cursecli < Formula
-  desc ''
-  homepage 'https://github.com/webhippie/cursecli'
+  desc "Commandline client for Curseforge"
+  homepage "https://webhippie.github.io/cursecli"
+  license "Apache-2.0"
 
-  head do
-    url 'https://github.com/webhippie/cursecli.git', branch: 'master'
-    depends_on 'go' => :build
-  end
+  version "1.1.1"
+  url "https://github.com/webhippie/cursecli.git",
+      tag: "v1.1.1",
+      revision: "cc69b052e4d24cee86cd9c0914147cb0b493f23d"
 
-  # stable do
-  #   url "https://dl.webhippie.de/cursecli/1.0.0/cursecli-1.0.0-darwin-10.6-amd64"
-  #   sha256 open("https://dl.webhippie.de/cursecli/1.0.0/cursecli-1.0.0-darwin-10.6-amd64.sha256").read.split(" ").first
-  #   version "1.0.0"
-  # end
+  head "https://github.com/webhippie/cursecli.git", branch: "master"
 
   test do
-    system "#{bin}/cursecli", '--version'
+    system bin / "cursecli", "--version"
   end
 
+  depends_on "go" => :build
+
   def install
-    if build.head?
-      ENV['GOPATH'] = buildpath
-      ENV['GOHOME'] = buildpath
-      ENV['CGO_ENABLED'] = 1
-      ENV['TAGS'] = ''
+    ENV["CGO_ENABLED"] = 0
+    ENV["TAGS"] = ""
 
-      ENV.prepend_create_path 'PATH', buildpath / 'bin'
-
-      currentpath = buildpath / 'src/github.com/webhippie/cursecli'
-      currentpath.install Dir['*']
-      Language::Go.stage_deps resources, buildpath / 'src'
-
-      cd currentpath do
-        system 'make', 'retool', 'sync', 'generate', 'test', 'build'
-
-        bin.install 'bin/cursecli' => 'cursecli'
-        # bash_completion.install "contrib/bash-completion/_cursecli"
-        # zsh_completion.install "contrib/zsh-completion/_cursecli"
-        prefix.install_metafiles
-      end
-    elsif build.devel?
-      bin.install "#{buildpath}/cursecli-master-darwin-10.6-amd64" => 'cursecli'
-    else
-      bin.install "#{buildpath}/cursecli-1.0.0-darwin-10.6-amd64" => 'cursecli'
-    end
+    system "make", "generate", "build"
+    bin.install "bin/cursecli"
   end
 end

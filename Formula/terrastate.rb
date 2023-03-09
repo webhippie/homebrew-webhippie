@@ -1,86 +1,44 @@
 # frozen_string_literal: true
 
-require 'formula'
-require 'language/go'
-require 'fileutils'
-require 'open-uri'
-
+# Definition of the terrastate formula
 class Terrastate < Formula
-  desc 'terraform http remote state storage'
-  homepage 'https://github.com/webhippie/terrastate'
+  desc "Terraform HTTP remote state storage"
+  homepage "https://webhippie.github.io/terrastate"
+  license "Apache-2.0"
 
-  head do
-    url 'https://github.com/webhippie/terrastate.git', branch: 'master'
-    depends_on 'go' => :build
-  end
+  version "1.0.1"
+  url "https://github.com/webhippie/terrastate.git",
+      tag: "v1.0.1",
+      revision: "021bf5048957fbc5da4d89e738b6bfd91c6b6d8e"
 
-  # stable do
-  #   url "https://dl.webhippie.de/terrastate/0.1.0/terrastate-0.1.0-darwin-10.6-amd64"
-  #   sha256 open("https://dl.webhippie.de/terrastate/0.1.0/terrastate-0.1.0-darwin-10.6-amd64.sha256").read.split(" ").first
-  #   version "0.1.0"
-  # end
+  head "https://github.com/webhippie/terrastate.git", branch: "master"
 
   test do
-    system "#{bin}/terrastate", '--version'
+    system bin / "terrastate", "--version"
   end
+
+  depends_on "go" => :build
 
   def install
-    if build.head?
-      ENV['GOPATH'] = buildpath
-      ENV['GOHOME'] = buildpath
-      ENV['CGO_ENABLED'] = 1
-      ENV['TAGS'] = ''
+    ENV["CGO_ENABLED"] = 0
+    ENV["TAGS"] = ""
 
-      ENV.prepend_create_path 'PATH', buildpath / 'bin'
+    system "make", "generate", "build"
+    bin.install "bin/terrastate"
 
-      currentpath = buildpath / 'src/github.com/webhippie/terrastate'
-      currentpath.install Dir['*']
-      Language::Go.stage_deps resources, buildpath / 'src'
-
-      cd currentpath do
-        system 'make', 'retool', 'sync', 'generate', 'test', 'build'
-
-        bin.install 'bin/terrastate' => 'terrastate'
-        # bash_completion.install "contrib/bash-completion/_terrastate"
-        # zsh_completion.install "contrib/zsh-completion/_terrastate"
-        prefix.install_metafiles
-      end
-    elsif build.devel?
-      bin.install "#{buildpath}/terrastate-master-darwin-10.6-amd64" => 'terrastate'
-    else
-      bin.install "#{buildpath}/terrastate-0.1.0-darwin-10.6-amd64" => 'terrastate'
-    end
-
-    FileUtils.touch('terrastate.conf')
-    etc.install 'terrastate.conf' => 'terrastate.conf'
+    FileUtils.touch("terrastate.conf")
+    etc.install "terrastate.conf"
   end
 
-  plist_options startup: true
+  def post_install
+    (var / "terrastate").mkpath
+  end
 
-  def plist
-    <<~EOS
-      <?xml version="1.0" encoding="UTF-8"?>
-      <!DOCTYPE plist PUBLIC "-//Apple Computer//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
-      <plist version="1.0">
-        <dict>
-          <key>Label</key>
-          <string>#{plist_name}</string>
-          <key>EnvironmentVariables</key>
-          <dict>
-            <key>TERRASTATE_ENV_FILE</key>
-            <string>#{etc}/terrastate.conf</string>
-          </dict>
-          <key>ProgramArguments</key>
-          <array>
-            <string>#{opt_bin}/terrastate</string>
-            <string>server</string>
-          </array>
-          <key>RunAtLoad</key>
-          <true/>
-          <key>KeepAlive</key>
-          <true/>
-        </dict>
-      </plist>
-    EOS
+  service do
+    run [opt_bin / "terrastate", "server"]
+    environment_variables TERRASTATE_ENV_FILE: etc / "terrastate.conf"
+    keep_alive true
+    log_path var / "log/terrastate.log"
+    error_log_path var / "log/terrastate.log"
   end
 end

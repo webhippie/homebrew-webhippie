@@ -1,54 +1,29 @@
 # frozen_string_literal: true
 
-require 'formula'
-require 'language/go'
-require 'fileutils'
-require 'open-uri'
-
+# Definition of the medialize formula
 class Medialize < Formula
-  desc 'sort and filter your media files based on meta infos'
-  homepage 'https://github.com/webhippie/medialize'
+  desc "Sort and filter your photos"
+  homepage "https://webhippie.github.io/medialize"
+  license "Apache-2.0"
 
-  head do
-    url 'https://github.com/webhippie/medialize.git', branch: 'master'
-    depends_on 'go' => :build
-  end
+  version "1.0.0"
+  url "https://github.com/webhippie/medialize.git",
+      tag: "v1.0.0",
+      revision: "0000000000000000000000000000000000000000"
 
-  # stable do
-  #   url "https://dl.webhippie.de/medialize/1.0.0/medialize-1.0.0-darwin-10.6-amd64"
-  #   sha256 open("https://dl.webhippie.de/medialize/1.0.0/medialize-1.0.0-darwin-10.6-amd64.sha256").read.split(" ").first
-  #   version "1.0.0"
-  # end
+  head "https://github.com/webhippie/medialize.git", branch: "master"
 
   test do
-    system "#{bin}/medialize", '--version'
+    system bin / "medialize", "--version"
   end
 
+  depends_on "go" => :build
+
   def install
-    if build.head?
-      ENV['GOPATH'] = buildpath
-      ENV['GOHOME'] = buildpath
-      ENV['CGO_ENABLED'] = 1
-      ENV['TAGS'] = ''
+    ENV["CGO_ENABLED"] = 0
+    ENV["TAGS"] = ""
 
-      ENV.prepend_create_path 'PATH', buildpath / 'bin'
-
-      currentpath = buildpath / 'src/github.com/webhippie/medialize'
-      currentpath.install Dir['*']
-      Language::Go.stage_deps resources, buildpath / 'src'
-
-      cd currentpath do
-        system 'make', 'retool', 'sync', 'generate', 'test', 'build'
-
-        bin.install 'bin/medialize' => 'medialize'
-        # bash_completion.install "contrib/bash-completion/_medialize"
-        # zsh_completion.install "contrib/zsh-completion/_medialize"
-        prefix.install_metafiles
-      end
-    elsif build.devel?
-      bin.install "#{buildpath}/medialize-master-darwin-10.6-amd64" => 'medialize'
-    else
-      bin.install "#{buildpath}/medialize-1.0.0-darwin-10.6-amd64" => 'medialize'
-    end
+    system "make", "generate", "build"
+    bin.install "bin/medialize"
   end
 end

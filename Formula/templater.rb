@@ -1,54 +1,29 @@
 # frozen_string_literal: true
 
-require 'formula'
-require 'language/go'
-require 'fileutils'
-require 'open-uri'
-
+# Definition of the templater formula
 class Templater < Formula
-  desc 'a template processor for environment variables'
-  homepage 'https://github.com/webhippie/templater'
+  desc "Template processor for env variables"
+  homepage "https://webhippie.github.io/templater"
+  license "Apache-2.0"
 
-  head do
-    url 'https://github.com/webhippie/templater.git', branch: 'master'
-    depends_on 'go' => :build
-  end
+  version "1.0.0"
+  url "https://github.com/webhippie/templater.git",
+      tag: "v1.0.0",
+      revision: "bd7248802755359eba462d05f24232dd3272e291"
 
-  # stable do
-  #   url "https://dl.webhippie.de/templater/1.0.0/templater-1.0.0-darwin-10.6-amd64"
-  #   sha256 open("https://dl.webhippie.de/templater/1.0.0/templater-1.0.0-darwin-10.6-amd64.sha256").read.split(" ").first
-  #   version "1.0.0"
-  # end
+  head "https://github.com/webhippie/templater.git", branch: "master"
 
   test do
-    system "#{bin}/templater", '--version'
+    system bin / "templater", "--version"
   end
 
+  depends_on "go" => :build
+
   def install
-    if build.head?
-      ENV['GOPATH'] = buildpath
-      ENV['GOHOME'] = buildpath
-      ENV['CGO_ENABLED'] = 1
-      ENV['TAGS'] = ''
+    ENV["CGO_ENABLED"] = 0
+    ENV["TAGS"] = ""
 
-      ENV.prepend_create_path 'PATH', buildpath / 'bin'
-
-      currentpath = buildpath / 'src/github.com/webhippie/templater'
-      currentpath.install Dir['*']
-      Language::Go.stage_deps resources, buildpath / 'src'
-
-      cd currentpath do
-        system 'make', 'retool', 'sync', 'generate', 'test', 'build'
-
-        bin.install 'bin/templater' => 'templater'
-        # bash_completion.install "contrib/bash-completion/_templater"
-        # zsh_completion.install "contrib/zsh-completion/_templater"
-        prefix.install_metafiles
-      end
-    elsif build.devel?
-      bin.install "#{buildpath}/templater-master-darwin-10.6-amd64" => 'templater'
-    else
-      bin.install "#{buildpath}/templater-1.0.0-darwin-10.6-amd64" => 'templater'
-    end
+    system "make", "generate", "build"
+    bin.install "bin/templater"
   end
 end
