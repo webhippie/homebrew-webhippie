@@ -6,7 +6,7 @@ class Terrastate < Formula
   homepage "https://webhippie.github.io/terrastate"
   license "Apache-2.0"
 
-  url "https://github.com/webhippie/terrastate/archive/refs/tags/v1.0.1.tar.gz"
+  url "https://github.com/webhippie/terrastate/archive/v1.0.1.tar.gz"
   sha256 "d96e72d60d14a1826877d368d10b827f23a46359f31f64752a4d7fcd405b8bf7"
   head "https://github.com/webhippie/terrastate.git", branch: "master"
 
@@ -19,11 +19,11 @@ class Terrastate < Formula
   def install
     ENV["CGO_ENABLED"] = "0"
     ENV["SHA"] = "undefined"
-    ENV["VERSION"] = url.split("/").last.gsub(".tar.gz", "").gsub("v", "")
-
-    if build.head?
-      ENV["VERSION"] = Utils.git_short_head(length: 8)
-    end
+    ENV["VERSION"] = if build.head?
+                       Utils.git_short_head(length: 8)
+                     else
+                       url.split("/").last.gsub(".tar.gz", "").gsub("v", "")
+                     end
 
     system "make", "generate", "build"
     bin.install "bin/terrastate"

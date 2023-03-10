@@ -6,7 +6,7 @@ class Errors < Formula
   homepage "https://webhippie.github.io/errors"
   license "Apache-2.0"
 
-  url "https://github.com/webhippie/errors/archive/refs/tags/v1.0.0.tar.gz"
+  url "https://github.com/webhippie/errors/archive/v1.0.0.tar.gz"
   sha256 "60edbc7645b523be563f6cdb479659c8211d1250131ff251d256cf7eb7f6dc16"
   head "https://github.com/webhippie/errors.git", branch: "master"
 
@@ -19,11 +19,11 @@ class Errors < Formula
   def install
     ENV["CGO_ENABLED"] = "0"
     ENV["SHA"] = "undefined"
-    ENV["VERSION"] = url.split("/").last.gsub(".tar.gz", "").gsub("v", "")
-
-    if build.head?
-      ENV["VERSION"] = Utils.git_short_head(length: 8)
-    end
+    ENV["VERSION"] = if build.head?
+                       Utils.git_short_head(length: 8)
+                     else
+                       url.split("/").last.gsub(".tar.gz", "").gsub("v", "")
+                     end
 
     system "make", "generate", "build"
     bin.install "bin/errors"

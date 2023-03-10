@@ -6,7 +6,7 @@ class Cursecli < Formula
   homepage "https://webhippie.github.io/cursecli"
   license "Apache-2.0"
 
-  url "https://github.com/webhippie/cursecli/archive/refs/tags/v1.1.0.tar.gz"
+  url "https://github.com/webhippie/cursecli/archive/v1.1.0.tar.gz"
   sha256 "884e8060fa97808a59a9d2954ac4b7c4570095518f36cd4989e38e3538ac6e6a"
   head "https://github.com/webhippie/cursecli.git", branch: "master"
 
@@ -19,11 +19,11 @@ class Cursecli < Formula
   def install
     ENV["CGO_ENABLED"] = "0"
     ENV["SHA"] = "undefined"
-    ENV["VERSION"] = url.split("/").last.gsub(".tar.gz", "").gsub("v", "")
-
-    if build.head?
-      ENV["VERSION"] = Utils.git_short_head(length: 8)
-    end
+    ENV["VERSION"] = if build.head?
+                       Utils.git_short_head(length: 8)
+                     else
+                       url.split("/").last.gsub(".tar.gz", "").gsub("v", "")
+                     end
 
     system "make", "generate", "build"
     bin.install "bin/cursecli"

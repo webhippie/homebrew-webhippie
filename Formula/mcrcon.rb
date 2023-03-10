@@ -6,11 +6,8 @@ class Mcrcon < Formula
   homepage "https://github.com/Tiiffi/mcrcon"
   license "Zlib"
 
-  version "0.7.2"
-  url "https://github.com/Tiiffi/mcrcon.git",
-      tag: "v0.7.2",
-      revision: "b5951e96349ec2ecf72b468459fc503a7067ba1f"
-
+  url "https://github.com/Tiiffi/mcrcon/archive/v0.7.2.tar.gz"
+  sha256 "1743b25a2d031b774e805f4011cb7d92010cb866e3b892f5dfc5b42080973270"
   head "https://github.com/Tiiffi/mcrcon.git", branch: "master"
 
   test do
