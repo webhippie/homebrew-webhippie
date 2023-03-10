@@ -6,11 +6,8 @@ class PromToAptDater < Formula
   homepage "https://webhippie.github.io/prom-to-apt-dater"
   license "Apache-2.0"
 
-  version "1.0.0"
-  url "https://github.com/webhippie/prom-to-apt-dater.git",
-      tag: "v1.0.0",
-      revision: "1e57090c4ab441d760ed09ba2584eb1078b754fc"
-
+  url "https://github.com/webhippie/prom-to-apt-dater/archive/refs/tags/v1.0.0.tar.gz"
+  sha256 "a8b96428d991b79764594f267d85f416d09320b74c71bd0a80a5f4e68ac80b1e"
   head "https://github.com/webhippie/prom-to-apt-dater.git", branch: "master"
 
   test do
@@ -20,8 +17,13 @@ class PromToAptDater < Formula
   depends_on "go" => :build
 
   def install
-    ENV["CGO_ENABLED"] = 0
-    ENV["TAGS"] = ""
+    ENV["CGO_ENABLED"] = "0"
+    ENV["SHA"] = "undefined"
+    ENV["VERSION"] = url.split("/").last.gsub(".tar.gz", "").gsub("v", "")
+
+    if build.head?
+      ENV["VERSION"] = Utils.git_short_head(length: 8)
+    end
 
     system "make", "generate", "build"
     bin.install "bin/prom-to-apt-dater"

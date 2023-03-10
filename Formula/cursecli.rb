@@ -6,11 +6,8 @@ class Cursecli < Formula
   homepage "https://webhippie.github.io/cursecli"
   license "Apache-2.0"
 
-  version "1.1.1"
-  url "https://github.com/webhippie/cursecli.git",
-      tag: "v1.1.1",
-      revision: "cc69b052e4d24cee86cd9c0914147cb0b493f23d"
-
+  url "https://github.com/webhippie/cursecli/archive/refs/tags/v1.1.0.tar.gz"
+  sha256 "884e8060fa97808a59a9d2954ac4b7c4570095518f36cd4989e38e3538ac6e6a"
   head "https://github.com/webhippie/cursecli.git", branch: "master"
 
   test do
@@ -20,8 +17,13 @@ class Cursecli < Formula
   depends_on "go" => :build
 
   def install
-    ENV["CGO_ENABLED"] = 0
-    ENV["TAGS"] = ""
+    ENV["CGO_ENABLED"] = "0"
+    ENV["SHA"] = "undefined"
+    ENV["VERSION"] = url.split("/").last.gsub(".tar.gz", "").gsub("v", "")
+
+    if build.head?
+      ENV["VERSION"] = Utils.git_short_head(length: 8)
+    end
 
     system "make", "generate", "build"
     bin.install "bin/cursecli"

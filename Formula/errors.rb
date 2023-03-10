@@ -6,11 +6,8 @@ class Errors < Formula
   homepage "https://webhippie.github.io/errors"
   license "Apache-2.0"
 
-  version "1.1.0"
-  url "https://github.com/webhippie/errors.git",
-      tag: "v1.1.0",
-      revision: "c5d4070de43921dd61411e72c34d79ae0047c978"
-
+  url "https://github.com/webhippie/errors/archive/refs/tags/v1.0.0.tar.gz"
+  sha256 "60edbc7645b523be563f6cdb479659c8211d1250131ff251d256cf7eb7f6dc16"
   head "https://github.com/webhippie/errors.git", branch: "master"
 
   test do
@@ -20,8 +17,13 @@ class Errors < Formula
   depends_on "go" => :build
 
   def install
-    ENV["CGO_ENABLED"] = 0
-    ENV["TAGS"] = ""
+    ENV["CGO_ENABLED"] = "0"
+    ENV["SHA"] = "undefined"
+    ENV["VERSION"] = url.split("/").last.gsub(".tar.gz", "").gsub("v", "")
+
+    if build.head?
+      ENV["VERSION"] = Utils.git_short_head(length: 8)
+    end
 
     system "make", "generate", "build"
     bin.install "bin/errors"

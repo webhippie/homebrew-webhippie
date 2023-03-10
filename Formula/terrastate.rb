@@ -6,11 +6,8 @@ class Terrastate < Formula
   homepage "https://webhippie.github.io/terrastate"
   license "Apache-2.0"
 
-  version "1.0.1"
-  url "https://github.com/webhippie/terrastate.git",
-      tag: "v1.0.1",
-      revision: "021bf5048957fbc5da4d89e738b6bfd91c6b6d8e"
-
+  url "https://github.com/webhippie/terrastate/archive/refs/tags/v1.0.1.tar.gz"
+  sha256 "d96e72d60d14a1826877d368d10b827f23a46359f31f64752a4d7fcd405b8bf7"
   head "https://github.com/webhippie/terrastate.git", branch: "master"
 
   test do
@@ -20,8 +17,13 @@ class Terrastate < Formula
   depends_on "go" => :build
 
   def install
-    ENV["CGO_ENABLED"] = 0
-    ENV["TAGS"] = ""
+    ENV["CGO_ENABLED"] = "0"
+    ENV["SHA"] = "undefined"
+    ENV["VERSION"] = url.split("/").last.gsub(".tar.gz", "").gsub("v", "")
+
+    if build.head?
+      ENV["VERSION"] = Utils.git_short_head(length: 8)
+    end
 
     system "make", "generate", "build"
     bin.install "bin/terrastate"

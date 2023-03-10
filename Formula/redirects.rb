@@ -6,11 +6,8 @@ class Redirects < Formula
   homepage "https://webhippie.github.io/redirects"
   license "Apache-2.0"
 
-  version "1.0.1"
-  url "https://github.com/webhippie/redirects.git",
-      tag: "v1.0.1",
-      revision: "1bfdff811a2eac2f5e4e306f380e1e83fefea1ec"
-
+  url "https://github.com/webhippie/redirects/archive/refs/tags/v1.0.1.tar.gz"
+  sha256 "5a1449cb00a82cc69bc7def8852bc86c22d4333fd75126e4b356fa6d050bd6fb"
   head "https://github.com/webhippie/redirects.git", branch: "master"
 
   test do
@@ -20,8 +17,13 @@ class Redirects < Formula
   depends_on "go" => :build
 
   def install
-    ENV["CGO_ENABLED"] = 0
-    ENV["TAGS"] = ""
+    ENV["CGO_ENABLED"] = "0"
+    ENV["SHA"] = "undefined"
+    ENV["VERSION"] = url.split("/").last.gsub(".tar.gz", "").gsub("v", "")
+
+    if build.head?
+      ENV["VERSION"] = Utils.git_short_head(length: 8)
+    end
 
     system "make", "generate", "build"
     bin.install "bin/redirects"

@@ -30,7 +30,7 @@ class Boilr < Formula
       -X github.com/Ilyes512/boilr/pkg/boilr.Commit=#{Utils.git_short_head(length: 8)}
     ]
 
-    system "go", "build", *std_go_args(output: bin / "boilr", ldflags:),
+    system "go", "build", *std_go_args(output: bin / "boilr", ldflags: ldflags),
            "-tags", "netgo", "."
   end
 end
