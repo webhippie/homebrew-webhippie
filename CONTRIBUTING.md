@@ -24,7 +24,7 @@ getting free help.
 
 ## Check for assigned people
 
-We are using Github Issues for submitting known issues, e.g. bugs, features,
+We are using GitHub Issues for submitting known issues, e.g. bugs, features,
 etc. Some issues will have someone assigned, meaning that there's already
 someone that takes responsability for fixing said issue. This is not done to
 discourage contributions, rather to not step in the work that has already been

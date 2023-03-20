@@ -26,7 +26,9 @@ jobs:
 
       - name: Run lint
         id: lint
-        run: bundle exec rake rubocop
+        uses: github/super-linter@v4
+        env:
+          VALIDATE_EDITORCONFIG: false
 
       - name: Run test
         id: test
