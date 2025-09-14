@@ -6,8 +6,8 @@ class Redirects < Formula
   homepage "https://webhippie.github.io/redirects"
   license "Apache-2.0"
 
-  url "https://github.com/webhippie/redirects/archive/v1.0.1.tar.gz"
-  sha256 "5a1449cb00a82cc69bc7def8852bc86c22d4333fd75126e4b356fa6d050bd6fb"
+  url "https://github.com/webhippie/redirects/archive/refs/tags/v2.0.0.tar.gz"
+  sha256 "2e4b3596c09a0158e7183bd0dd41116a60e8b9696a67e88776d6c8e5cca66927"
   head "https://github.com/webhippie/redirects.git", branch: "master"
 
   test do
