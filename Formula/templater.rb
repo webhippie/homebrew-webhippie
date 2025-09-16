@@ -6,8 +6,8 @@ class Templater < Formula
   homepage "https://webhippie.github.io/templater"
   license "Apache-2.0"
 
-  url "https://github.com/webhippie/templater/archive/v1.0.0.tar.gz"
-  sha256 "77392ce115143e8cdab5e7156db1c233397064093f354d94d33705a938980853"
+  url "https://github.com/webhippie/templater/archive/refs/tags/v2.0.0.tar.gz"
+  sha256 "ad543fce76d0263e5df1b351c2dc489f7f628333a636799b22143d3540b75eae"
   head "https://github.com/webhippie/templater.git", branch: "master"
 
   test do
