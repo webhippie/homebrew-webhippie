@@ -20,21 +20,17 @@ jobs:
 
     steps:
       - name: Checkout source
-        id: source
         uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6
 
       - name: Setup ruby
-        id: ruby
         uses: ruby/setup-ruby@v1
         with:
           bundler-cache: true
 
       - name: Run lint
-        id: lint
         run: bundle exec rake rubocop
 
       - name: Run test
-        id: test
         run: bundle exec rake test
 
 ...
