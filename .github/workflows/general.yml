@@ -31,6 +31,6 @@ jobs:
         run: bundle exec rake rubocop
 
       - name: Run test
-        run: bundle exec rake test
+        run: bundle exec rake spec
 
 ...

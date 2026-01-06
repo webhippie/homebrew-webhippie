@@ -1,5 +1,7 @@
 ---
+# yaml-language-server: $schema=https://www.rubyschema.org/rubocop.json
 AllCops:
+  SuggestExtensions: false
   NewCops: enable
 
 Naming/FileName:

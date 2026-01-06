@@ -1,9 +1,9 @@
 # frozen_string_literal: true
 
-require "rubocop/rake_task"
-RuboCop::RakeTask.new
+require "rspec/core/rake_task"
+RSpec::Core::RakeTask.new(:spec)
 
-desc "simple tests on homebrew scripts"
-task :test do
-  puts "should do some useful tests now..."
-end
+require "rubocop/rake_task"
+RuboCop::RakeTask.new(:rubocop)
+
+task default: %i[spec rubocop]
