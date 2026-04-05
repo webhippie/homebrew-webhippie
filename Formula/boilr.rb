@@ -6,8 +6,8 @@ class Boilr < Formula
   homepage "https://github.com/Ilyes512/boilr"
   license "Apache-2.0"
 
-  url "https://github.com/Ilyes512/boilr/archive/refs/tags/0.5.1.tar.gz"
-  sha256 "e22a3bc689579f0ea4888c7cba08e6c143692b2fe87119e9a363fecfe22eaddf"
+  url "https://github.com/Ilyes512/boilr/archive/refs/tags/v1.0.1.tar.gz"
+  sha256 "d2b8b6cfaa47223fe2315d777f31d622725650d22162165787aa8c7823560ace"
   head "https://github.com/Ilyes512/boilr.git", branch: "master"
 
   test do
