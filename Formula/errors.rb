@@ -6,8 +6,8 @@ class Errors < Formula
   homepage "https://webhippie.github.io/errors"
   license "Apache-2.0"
 
-  url "https://github.com/webhippie/errors/archive/refs/tags/v2.4.0.tar.gz"
-  sha256 "43afb1a4388aca6792c1326eea0c1ab4a5b32d94f8244feacf3bfa0e235ea6c8"
+  url "https://github.com/webhippie/errors/archive/refs/tags/v2.4.1.tar.gz"
+  sha256 "47128e9d9328770806b4a5f47074edbeb4f1b9c0ca1c1eca7aa339d70a3c1e0e"
   head "https://github.com/webhippie/errors.git", branch: "master"
 
   test do
