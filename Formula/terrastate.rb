@@ -6,8 +6,8 @@ class Terrastate < Formula
   homepage "https://webhippie.github.io/terrastate"
   license "Apache-2.0"
 
-  url "https://github.com/webhippie/terrastate/archive/refs/tags/v2.7.0.tar.gz"
-  sha256 "1ea05a6fdf2253b87567de53a81af65e1181b65e79cf805396f8b9f2c3888d14"
+  url "https://github.com/webhippie/terrastate/archive/refs/tags/v2.7.1.tar.gz"
+  sha256 "593884eb65760bc2fa8054caa0c4d57536202402e2deff0eba553744e5466956"
   head "https://github.com/webhippie/terrastate.git", branch: "master"
 
   test do
