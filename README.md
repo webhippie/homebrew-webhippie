@@ -1,6 +1,6 @@
 # Homebrew: Webhippie
 
-[![Build Status](https://github.com/webhippie/homebrew-webhippie/actions/workflows/general.yml/badge.svg)](https://github.com/webhippie/homebrew-webhippie/actions/workflows/general.yml) [![Codacy Badge](https://app.codacy.com/project/badge/Grade/9f7da33f3e764e6f96d7fa23771d03a1)](https://www.codacy.com/gh/webhippie/homebrew-webhippie/dashboard?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=webhippie/homebrew-webhippie&amp;utm_campaign=Badge_Grade)
+[![Build Status](https://github.com/webhippie/homebrew-webhippie/actions/workflows/general.yml/badge.svg)](https://github.com/webhippie/homebrew-webhippie/actions/workflows/general.yml) [![Codacy Badge](https://app.codacy.com/project/badge/Grade/9f7da33f3e764e6f96d7fa23771d03a1)](https://app.codacy.com/gh/webhippie/homebrew-webhippie/dashboard?utm_source=gh&utm_medium=referral&utm_content=&utm_campaign=Badge_grade)
 
 Homebrew repository to install tools maintained by us.
 
