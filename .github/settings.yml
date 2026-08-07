@@ -48,7 +48,7 @@ rulesets:
         parameters:
           strict_required_status_checks_policy: true
           required_status_checks:
-            - context: testing
+            - context: general
               integration_id: 15368
     bypass_actors:
       - actor_id: 1

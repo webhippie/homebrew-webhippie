@@ -15,6 +15,7 @@ class Redirects < Formula
   end
 
   depends_on "go" => :build
+  depends_on "go-task" => :build
 
   def install
     ENV["CGO_ENABLED"] = "0"
@@ -25,7 +26,7 @@ class Redirects < Formula
                        url.split("/").last.gsub(".tar.gz", "").gsub("v", "")
                      end
 
-    system "make", "generate", "build"
+    system "task", "generate", "build"
     bin.install "bin/redirects"
 
     FileUtils.touch("redirects.conf")

@@ -1,4 +1,4 @@
-.direnv/
-.devenv/
+mise.local.toml
 
-.pre-commit-config.yaml
+.yardoc/
+.bundle/
