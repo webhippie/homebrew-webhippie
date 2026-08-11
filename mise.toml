@@ -2,7 +2,7 @@
 
 [tools]
 node = "24"
-pre-commit = "4.6.1"
+pre-commit = "4.6.2"
 ruby = "4.0.6"
 
 [settings.ruby]
