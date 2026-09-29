@@ -6,8 +6,8 @@ class Cursecli < Formula
   homepage "https://webhippie.github.io/cursecli"
   license "Apache-2.0"
 
-  url "https://github.com/webhippie/cursecli/archive/refs/tags/v2.8.1.tar.gz"
-  sha256 "4b13bfcc679a5b4683304916fb439c40912c79614e6dbd5f73dc3461cbd4036b"
+  url "https://github.com/webhippie/cursecli/archive/refs/tags/v2.8.2.tar.gz"
+  sha256 "53fd137b940b611ef4e5c17f0d5a3f8e799665fd88bf1669a8a889e92900de19"
   head "https://github.com/webhippie/cursecli.git", branch: "master"
 
   test do
