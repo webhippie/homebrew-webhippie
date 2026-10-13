@@ -6,8 +6,8 @@ class Medialize < Formula
   homepage "https://webhippie.github.io/medialize"
   license "Apache-2.0"
 
-  url "https://github.com/webhippie/medialize/archive/refs/tags/v2.9.2.tar.gz"
-  sha256 "b11db183fa03bfbb0e56c71d3586905520146ec9ce28ebb8c58acb4ca7b5968b"
+  url "https://github.com/webhippie/medialize/archive/refs/tags/v2.9.3.tar.gz"
+  sha256 "418dd077a8e9afc523e18974f51ea19814d8259b8b5a72f12fd5f15c5a687d63"
   head "https://github.com/webhippie/medialize.git", branch: "master"
 
   test do
