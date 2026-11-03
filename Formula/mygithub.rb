@@ -6,8 +6,8 @@ class Mygithub < Formula
   homepage "https://webhippie.github.io/mygithub"
   license "Apache-2.0"
 
-  url "https://github.com/webhippie/mygithub/archive/refs/tags/v19.0.1.tar.gz"
-  sha256 "6a3d2c7308dbdecf73f3734e1e43e5000c26515ad79dee68eda820bf66448212"
+  url "https://github.com/webhippie/mygithub/archive/refs/tags/v19.0.2.tar.gz"
+  sha256 "bab41640baf962c06f88478c57f53166a3d559ef61f60584ccc0855132e506a6"
   head "https://github.com/webhippie/mygithub.git", branch: "master"
 
   test do
