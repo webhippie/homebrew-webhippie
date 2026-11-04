@@ -6,8 +6,8 @@ class PromToAptDater < Formula
   homepage "https://webhippie.github.io/prom-to-apt-dater"
   license "Apache-2.0"
 
-  url "https://github.com/webhippie/prom-to-apt-dater/archive/refs/tags/v2.9.1.tar.gz"
-  sha256 "0b5c0c7a7a2330ca17b8d9750fc40986995cefad583a5fa7d005ba6aafb0beb8"
+  url "https://github.com/webhippie/prom-to-apt-dater/archive/refs/tags/v2.9.2.tar.gz"
+  sha256 "81fe62e3d4fd4a9f8b0ffc328ebd6b5f71646f6c94fa487b0f24233bdc018faa"
   head "https://github.com/webhippie/prom-to-apt-dater.git", branch: "master"
 
   test do
